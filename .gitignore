@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Large / third-party data and model weights
+Dataset/
+*.pt
+*.engine
+*.onnx
+
+# Run outputs
+outputs/
+Outputs/
+runs/
+
+# OS / editor
+.DS_Store
+.vscode/
