@@ -130,6 +130,9 @@ def run_pipeline(
             if processed_frames % config.merge_interval_frames == 0:
                 for merged_id, kept_id in identity_manager.consolidate():
                     print(f"  merged identity {merged_id} -> {kept_id}")
+            if device == "mps" and processed_frames % config.cache_clear_interval_frames == 0:
+                # Variable crop counts per frame leave stale buffers in the MPS cache
+                torch.mps.empty_cache()
 
             if floor_plan is not None:
                 floor_plan.update(floor_positions)

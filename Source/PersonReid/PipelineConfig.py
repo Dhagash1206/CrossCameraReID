@@ -42,6 +42,7 @@ class PipelineConfig:
     segment_gap_seconds: float = 1.0
 
     device: str = "auto"
+    cache_clear_interval_frames: int = 100
 
     @classmethod
     def from_yaml(cls, path: str | Path) -> "PipelineConfig":
