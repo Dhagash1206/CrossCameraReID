@@ -5,6 +5,7 @@ __pycache__/
 
 # Large / third-party data and model weights
 Dataset/
+Weights/
 *.pt
 *.engine
 *.onnx

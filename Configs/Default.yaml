@@ -1,0 +1,40 @@
+# Multi-camera ReID pipeline settings. Any key from PipelineConfig can be set here.
+
+# Detection / per-camera tracking
+detector_weights: Weights/yolo11n.pt
+tracker_config: bytetrack.yaml
+detection_confidence: 0.4
+inference_image_size: 640
+frame_stride: 1
+
+# Appearance embeddings (OSNet via BoxMOT, auto-downloaded on first run)
+reid_weights: Weights/osnet_x0_25_msmt17.pt
+flip_augmentation: true
+min_crop_height: 64
+min_embedding_confidence: 0.5
+max_occlusion_ratio: 0.3
+
+# Cross-camera identity association
+min_track_hits_before_match: 8
+match_similarity_threshold: 0.62
+top_k_similarities: 3
+local_track_embedding_buffer: 30
+global_gallery_size: 100
+gallery_update_interval: 5
+local_track_ttl_frames: 60
+
+# Identity consolidation
+merge_interval_frames: 100
+merge_similarity_threshold: 0.75
+
+# Floor plan / spatial gating (set floor_calibration to enable)
+floor_calibration: null
+spatial_gate_meters: 1.5
+spatial_time_window_frames: 5
+spatial_bonus: 0.1
+trail_length: 50
+
+# Analytics
+segment_gap_seconds: 1.0
+
+device: auto
