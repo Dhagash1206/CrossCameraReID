@@ -1,0 +1,6 @@
+ultralytics>=8.3
+boxmot>=26.0
+lap
+scipy
+pyyaml
+pytest

@@ -17,20 +17,21 @@ class TrackedDetections:
 
 
 class CameraStream:
-    """One video source with its own YOLO + ByteTrack instance (tracker state is per model)."""
+    """One video source (file, webcam index or RTSP URL) with its own YOLO + ByteTrack instance."""
 
-    def __init__(self, camera_id: int, video_path: str, config: PipelineConfig, device: str):
+    def __init__(self, camera_id: int, source: str, config: PipelineConfig, device: str):
         self.camera_id = camera_id
-        self.video_path = video_path
-        self.capture = cv2.VideoCapture(video_path)
+        self.source = source
+        # A bare digit means a local webcam index
+        self.capture = cv2.VideoCapture(int(source) if source.isdigit() else source)
         if not self.capture.isOpened():
-            raise FileNotFoundError(f"Cannot open video: {video_path}")
+            raise FileNotFoundError(f"Cannot open video source: {source}")
         self.fps = self.capture.get(cv2.CAP_PROP_FPS) or 25.0
         self.frame_width = int(self.capture.get(cv2.CAP_PROP_FRAME_WIDTH))
         self.frame_height = int(self.capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        self.frame_count = int(self.capture.get(cv2.CAP_PROP_FRAME_COUNT))
         self.config = config
         self.device = device
+        # Tracker state lives on the model, so every camera needs its own instance
         self.detector = YOLO(config.detector_weights)
         self.finished = False
 
